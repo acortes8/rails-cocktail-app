@@ -13,6 +13,7 @@ class CocktailsController < ApplicationController
   def new
     @ingredients = Ingredient.all
     @cocktail = Cocktail.new
+    @cocktail.cocktail_ingredients.build
   end
 
   def create

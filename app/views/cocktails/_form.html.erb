@@ -1,4 +1,7 @@
-<%= form_with model: @cocktail do |cocktail_form| %>
+<%= form_with(model: @cocktail, data: {
+  controller: "nested-form",
+  nested_form_wrapper_selector_value: '.nested-form-wrapper'
+}) do |cocktail_form| %>
   <% if @cocktail.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@cocktail.errors.count, "error") %> prohibited this cocktail from being saved:</h2>
@@ -17,9 +20,19 @@
   <br /><%= cocktail_form.text_area :instruction, placeholder: "Cocktail Instructions" %>
 
   <h2>Ingredients</h2>
-  <%= cocktail_form.fields_for :cocktail_ingredients do |cocktail_ingredient_form| %>
-    <%= cocktail_ingredient_form.text_field :quantity, placeholder: "quantity" %>
+
+  <template data-nested-form-target="template">
+    <%= cocktail_form.fields_for :cocktail_ingredients, CocktailIngredient.new, child_index: "NEW_RECORD" do |cocktail_ingredient_fields| %>
+      <%= render "cocktails/cocktail_ingredient_form", f: cocktail_ingredient_fields %>
+    <% end %>
+  </template>
+
+  <%= cocktail_form.fields_for :cocktail_ingredients do |cocktail_ingredient_fields| %>
+    <%= render "cocktails/cocktail_ingredient_form", f: cocktail_ingredient_fields %>
   <% end %>
+
+  <div data-nested-form-target="target"></div>
+  <button type="button" data-action="nested-form#add">Add Ingredient</button>
 
   <%= cocktail_form.submit %>
 <% end %>
