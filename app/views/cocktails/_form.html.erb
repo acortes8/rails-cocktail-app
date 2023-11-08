@@ -1,0 +1,25 @@
+<%= form_with model: @cocktail do |cocktail_form| %>
+  <% if @cocktail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cocktail.errors.count, "error") %> prohibited this cocktail from being saved:</h2>
+      <ul>
+        <% @cocktail.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= cocktail_form.text_field :name, placeholder: "Cocktail Name" %><br />
+  <br /><%= cocktail_form.text_field :spirit_type, placeholder: "Spirit Type" %><br />
+  <br /><%= cocktail_form.text_field :image_url, placeholder: "Cocktail Image Link" %><br />
+  <br /><%= cocktail_form.text_area :description, placeholder: "Cocktail Description" %><br />
+  <br /><%= cocktail_form.text_area :instruction, placeholder: "Cocktail Instructions" %>
+
+  <h2>Ingredients</h2>
+  <%= cocktail_form.fields_for :cocktail_ingredients do |cocktail_ingredient_form| %>
+    <%= cocktail_ingredient_form.text_field :quantity, placeholder: "quantity" %>
+  <% end %>
+
+  <%= cocktail_form.submit %>
+<% end %>

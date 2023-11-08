@@ -1,0 +1,28 @@
+<h1><%= @cocktail.name %></h1>
+
+<img src="<%= @cocktail.image_url %>" alt="Cocktail image" width="720" height="720">
+
+<p><%= @cocktail.instruction %></p>
+
+<ul>
+  <% @cocktail_ingredients.each do |cocktail_ingredient| %>
+    <li>
+      <%= cocktail_ingredient.quantity %>
+      <%= cocktail_ingredient.unit %>
+      <%= cocktail_ingredient.ingredient.name %>
+
+      <% if cocktail_ingredient.description.present? %>
+        (<%= cocktail_ingredient.description %>)
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<ul>
+  <li><%= link_to "Back to all cocktails", root_path %></li>
+  <li><%= link_to "Edit", edit_cocktail_path(@cocktail) %></li>
+  <li><%= link_to "Destroy", cocktail_path(@cocktail), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %></li>
+</ul>
