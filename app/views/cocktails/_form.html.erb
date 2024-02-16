@@ -19,7 +19,7 @@
     <% end %>
   <% end %>
 
-  <%= f.button "Add Ingredient", formmethod: "post", formaction: add_ingredient_cocktails_path(id: f.object), data: {turbo_frame: f.field_id(:ingredients)} %>
+  <%= f.submit "Add Ingredient", formmethod: "post", formaction: add_ingredient_cocktails_path(id: f.object), data: {turbo_frame: f.field_id(:ingredients)} %>
   <%= f.submit %>
 <% end %>
 
