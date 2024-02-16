@@ -1,38 +1,30 @@
-<%= form_with(model: @cocktail, data: {
-  controller: "nested-form",
-  nested_form_wrapper_selector_value: '.nested-form-wrapper'
-}) do |cocktail_form| %>
-  <% if @cocktail.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@cocktail.errors.count, "error") %> prohibited this cocktail from being saved:</h2>
-      <ul>
-        <% @cocktail.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with model: @cocktail do |f| %>
+  <%= (errors = safe_join(@cocktail.errors.map(&:full_message).map(&tag.method(:li))).presence) ? tag.div(tag.ul(errors), class: "prose text-red-500") : "" %>
 
-  <%= cocktail_form.text_field :name, placeholder: "Cocktail Name" %><br />
-  <br /><%= cocktail_form.text_field :spirit_type, placeholder: "Spirit Type" %><br />
-  <br /><%= cocktail_form.text_field :image_url, placeholder: "Cocktail Image Link" %><br />
-  <br /><%= cocktail_form.text_area :description, placeholder: "Cocktail Description" %><br />
-  <br /><%= cocktail_form.text_area :instruction, placeholder: "Cocktail Instructions" %>
+  <%= f.text_field :name, placeholder: "Cocktail Name" %>
+  <%= f.text_field :spirit_type, placeholder: "Spirit Category" %>
+  <%= f.text_field :image_url, placeholder: "Cocktail Image Link" %>
+  <%= f.text_area :description, placeholder: "Cocktail Description" %>
+  <%= f.text_area :instruction, placeholder: "Cocktail Instructions" %>
 
-  <h2>Ingredients</h2>
-
-  <template data-nested-form-target="template">
-    <%= cocktail_form.fields_for :cocktail_ingredients, CocktailIngredient.new, child_index: "NEW_RECORD" do |cocktail_ingredient_fields| %>
-      <%= render "cocktails/cocktail_ingredient_form", f: cocktail_ingredient_fields %>
+  <%= turbo_frame_tag f.field_id(:ingredients) do %>
+    <%= f.fields_for :cocktail_ingredients do |ff| %>
+      <%= tag.div class: "flex gap-2" do %>
+        <%= ff.select :ingredient_id, Ingredient.all.map { |i| [i.name, i.id] }, include_blank: "Select Ingredient" %>
+        <%= ff.text_field :quantity, placeholder: "Quantity" %>
+        <%= ff.text_field :unit, placeholder: "Measurement Unit" %>
+        <%= ff.text_field :description, placeholder: "Special Instructions" %>
+        <%= ff.check_box :_destroy, title: "Check To Delete Ingredient" %>
+      <% end %>
     <% end %>
-  </template>
-
-  <%= cocktail_form.fields_for :cocktail_ingredients do |cocktail_ingredient_fields| %>
-    <%= render "cocktails/cocktail_ingredient_form", f: cocktail_ingredient_fields %>
   <% end %>
 
-  <div data-nested-form-target="target"></div>
-  <button type="button" data-action="nested-form#add">Add Ingredient</button>
-
-  <%= cocktail_form.submit %>
+  <%= f.button "Add Ingredient", formmethod: "post", formaction: add_ingredient_cocktails_path(id: f.object), data: {turbo_frame: f.field_id(:ingredients)} %>
+  <%= f.submit %>
 <% end %>
+
+<style type="text/css" media="screen">
+  input[type], textarea, select { display: block; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; width: 100%; border: 1px solid rgba(0,0,0,0.15); border-radius: .375rem; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px }
+  input[type="checkbox"] { width: auto; padding: 0.75rem; }
+  input[type="submit"] { width: auto; cursor: pointer; color: white; background-color: rgb(37, 99, 235); font-weight: 500; }
+</style>  

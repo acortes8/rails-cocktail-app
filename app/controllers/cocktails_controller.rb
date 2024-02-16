@@ -11,7 +11,6 @@ class CocktailsController < ApplicationController
   end
 
   def new
-    @ingredients = Ingredient.all
     @cocktail = Cocktail.new
     @cocktail.cocktail_ingredients.build
   end
@@ -19,14 +18,23 @@ class CocktailsController < ApplicationController
   def create
     @cocktail = Cocktail.new(cocktail_params)
     respond_to do |format|
-      if @cocktail.save
-        format.html { redirect_to @cocktail, notice: "Cocktail successfully created."}
-        format.json {render :show, status: :created, location: @cocktail }
+      if params[:add_ingredient]
+        @cocktail.cocktail_ingredients.build
+        format.html { render :new, status: :unprocessable_entity }
       else
-        format.html { render :new }
-        format.json { render json: @cocktail.errors, status: :unprocessable_entity }
+        if @cocktail.save
+          format.html { redirect_to @cocktail, notice: "Cocktail Successfully Created."}
+        else
+          format.html { render :new, status: :unprocessable_entity }
+        end
       end
     end
+  end
+
+  def add_ingredient
+    @cocktail = Cocktail.new(cocktail_params.merge({id: params[:id]}))
+    @cocktail.cocktail_ingredients.build
+    render :new
   end
 
   def edit
@@ -55,6 +63,6 @@ class CocktailsController < ApplicationController
 
   private
     def cocktail_params
-      params.require(:cocktail).permit(:name, :image_url, :instruction, :spirit_type, :description, cocktail_ingredients_attributes: [:quantity, :unit, :description, :_destroy, :id, ingredient_attributes: [:name, :id]])
+      params.require(:cocktail).permit(:name, :spirit_type, :image_url, :description, :instruction, cocktail_ingredients_attributes: [:ingredient_id, :quantity, :unit, :description, :_destroy, :id])
     end
 end

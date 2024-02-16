@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'cocktails#index'
-  resources :cocktails
+  resources :cocktails do
+    post :add_ingredient, on: :collection
+  end
   resources :ingredients
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
