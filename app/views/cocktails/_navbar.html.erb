@@ -1,22 +1,22 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<%= root_path %>">
+    <%= link_to root_path, class: "navbar-brand" do %>
       <%= image_tag("buzzy_bee.png", alt: "Logo", width: "30", height: "24", class: "d-inline-block align-text-top") %>
       Buzzy's Bar
-    </a>
+    <% end %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Cocktails</a>
+          <%= link_to "Cocktails", root_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Ingredients</a>
+          <%= link_to "Ingredients", root_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <%= link_to "About", root_path, class: "nav-link" %>
         </li>
       </ul>
       <form class="d-flex" role="search">
