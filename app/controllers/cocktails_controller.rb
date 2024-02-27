@@ -42,7 +42,6 @@ class CocktailsController < ApplicationController
   end
 
   def update
-    binding.pry
     @cocktail = Cocktail.find(params[:id])
     respond_to do |format|
       if @cocktail.update(cocktail_params)
