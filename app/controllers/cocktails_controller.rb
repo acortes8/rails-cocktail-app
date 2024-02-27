@@ -12,14 +12,14 @@ class CocktailsController < ApplicationController
 
   def new
     @cocktail = Cocktail.new
-    @cocktail.cocktail_ingredients.build
+    @cocktail.cocktail_ingredients.build.build_ingredient
   end
 
   def create
     @cocktail = Cocktail.new(cocktail_params)
     respond_to do |format|
       if params[:add_ingredient]
-        @cocktail.cocktail_ingredients.build
+        @cocktail.cocktail_ingredients.build.build_ingredient
         format.html { render :new, status: :unprocessable_entity }
       else
         if @cocktail.save
@@ -33,7 +33,7 @@ class CocktailsController < ApplicationController
 
   def add_ingredient
     @cocktail = Cocktail.new(cocktail_params.merge({id: params[:id]}))
-    @cocktail.cocktail_ingredients.build
+    @cocktail.cocktail_ingredients.build.build_ingredient
     render :new
   end
 
@@ -42,6 +42,7 @@ class CocktailsController < ApplicationController
   end
 
   def update
+    binding.pry
     @cocktail = Cocktail.find(params[:id])
     respond_to do |format|
       if @cocktail.update(cocktail_params)
@@ -63,6 +64,8 @@ class CocktailsController < ApplicationController
 
   private
     def cocktail_params
-      params.require(:cocktail).permit(:name, :spirit_type, :image_url, :description, :instruction, cocktail_ingredients_attributes: [:ingredient_id, :quantity, :unit, :description, :_destroy, :id])
+      params.require(:cocktail).permit(:name, :spirit_type, :image_url, :description, :instruction,
+      cocktail_ingredients_attributes: [:id, :ingredient_id, :quantity, :unit, :description, :_destroy,
+      ingredient_attributes: [:id, :name, :description]])
     end
 end

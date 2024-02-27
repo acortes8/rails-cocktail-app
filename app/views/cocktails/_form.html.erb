@@ -6,11 +6,20 @@
   <%= f.text_field :image_url, placeholder: "Cocktail Image Link" %>
   <%= f.text_area :description, placeholder: "Cocktail Description" %>
   <%= f.text_area :instruction, placeholder: "Cocktail Instructions" %>
+  <br>
 
   <%= turbo_frame_tag f.field_id(:ingredients) do %>
     <%= f.fields_for :cocktail_ingredients do |ff| %>
       <%= tag.div class: "flex gap-2" do %>
-        <%= ff.select :ingredient_id, Ingredient.all.map { |i| [i.name, i.id] }, include_blank: "Select Ingredient" %>
+        <%= ff.fields_for :ingredient do |fff| %>
+          <%= fff.text_field :name, list: "ingredients" %>
+          <datalist id="ingredients">
+            <% Ingredient.pluck(:name).each do |name| %>
+              <option value="<%= name %>"></option>
+            <% end %>
+          </datalist>
+          <%= fff.text_field :description, placeholder: "Description of Ingredient" %>
+        <% end %>
         <%= ff.text_field :quantity, placeholder: "Quantity" %>
         <%= ff.text_field :unit, placeholder: "Measurement Unit" %>
         <%= ff.text_field :description, placeholder: "Special Instructions" %>
