@@ -12,7 +12,7 @@
     <%= f.fields_for :cocktail_ingredients do |ff| %>
       <%= tag.div class: "flex gap-2" do %>
         <%= ff.fields_for :ingredient do |fff| %>
-          <%= fff.text_field :name, list: "ingredients" %>
+          <%= fff.text_field :name, list: "ingredients", placeholder: "Type To Search Ingredients..." %>
           <datalist id="ingredients">
             <% Ingredient.pluck(:name).each do |name| %>
               <option value="<%= name %>"></option>
