@@ -1,0 +1,22 @@
+<h1><%= @ingredient.name %></h1>
+
+<p><%= @ingredient.name %></p>
+
+<% if @ingredient.description.present? %>
+  <p><%= @ingredient.description %></p>
+<% end %>
+
+<% if @connected_cocktails.present? %>
+  <div class="list-group">
+    <% @connected_cocktails.each do |connected_cocktail| %>
+      <%= link_to(connected_cocktail.name, connected_cocktail, class: "list-group-item list-group-item-action") %>
+    <% end %>
+  </div>
+<% else %>
+  <p>No connected cocktails found for this ingredient.<p>
+<% end %>
+
+<ul>
+  <li><%= link_to "Back to all ingredients", "/ingredients" %></li>
+  <li><%= link_to "Edit", edit_ingredient_path(@ingredient) %></li>
+</ul>

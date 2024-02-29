@@ -21,11 +21,14 @@ class CocktailsController < ApplicationController
       if params[:add_ingredient]
         @cocktail.cocktail_ingredients.build.build_ingredient
         format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @cocktail.errors, status: :unprocessable_entity }
       else
         if @cocktail.save
-          format.html { redirect_to @cocktail, notice: "Cocktail Successfully Created."}
+          format.html { redirect_to @cocktail, notice: "Cocktail Successfully Created." }
+          format.json { render :show, status: :created, location: @cocktail }
         else
           format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @cocktail.errors, status: :unprocessable_entity }
         end
       end
     end

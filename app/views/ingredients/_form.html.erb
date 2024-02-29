@@ -1,0 +1,15 @@
+<%= form_with model: @ingredient do |f| %>
+  <%= (errors = safe_join(@ingredient.errors.map(&:full_message).map(&tag.method(:li))).presence) ? tag.div(tag.ul(errors), class: "prose text-red-500") : "" %>
+
+  <%= f.text_field :name, placeholder: "Ingredient Name" %>
+  <%= f.text_field :description, placeholder: "Ingredient Description" %>
+  <br>
+
+  <%= f.submit %>
+<% end %>
+
+<style type="text/css" media="screen">
+  input[type], textarea, select { display: block; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; width: 100%; border: 1px solid rgba(0,0,0,0.15); border-radius: .375rem; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px }
+  input[type="checkbox"] { width: auto; padding: 0.75rem; }
+  input[type="submit"] { width: auto; cursor: pointer; color: white; background-color: rgb(37, 99, 235); font-weight: 500; }
+</style>

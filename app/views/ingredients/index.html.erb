@@ -1,8 +1,10 @@
 <h1>Ingredients</h1>
-<ul>
+
+<div class="list-group">
   <% @ingredients.each do |ingredient| %>
-    <li>
-      <%= ingredient.name %>
-    </li>
+    <%= link_to(ingredient.name, ingredient, class: "list-group-item list-group-item-action") %>
   <% end %>
-</ul>
+</div>
+<br>
+
+<%= link_to "Create New Ingredient", new_ingredient_path %>
