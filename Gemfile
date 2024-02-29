@@ -49,10 +49,13 @@ gem "bootsnap", require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 # Use Active Storage Validations for validating image related forms
 gem "active_storage_validations"
+
+# Use AWS SDK S3 for Active Storage AWS S3 connection
+gem "aws-sdk-s3", require: false
 
 # Use Bootstrap for CSS styling
 gem 'bootstrap', '~> 5.3.2'
