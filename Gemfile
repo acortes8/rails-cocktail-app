@@ -51,6 +51,9 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Use Active Storage Validations for validating image related forms
+gem "active_storage_validations"
+
 # Use Bootstrap for CSS styling
 gem 'bootstrap', '~> 5.3.2'
 

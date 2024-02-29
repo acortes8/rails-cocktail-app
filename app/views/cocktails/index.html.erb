@@ -3,7 +3,7 @@
 <ul>
   <% @cocktails.each do |cocktail| %>
     <li>
-      <%= link_to image_tag(cocktail.image_url, size: 100), cocktail %><br />
+      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br />
       <%= link_to cocktail.name, cocktail %>
     </li><br />
   <% end %>

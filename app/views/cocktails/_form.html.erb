@@ -3,7 +3,7 @@
 
   <%= f.text_field :name, placeholder: "Cocktail Name" %>
   <%= f.text_field :spirit_type, placeholder: "Spirit Category" %>
-  <%= f.text_field :image_url, placeholder: "Cocktail Image Link" %>
+  <%= f.file_field :image, accept: "image/png, image/jpeg, image/webp" %>
   <%= f.text_area :description, placeholder: "Cocktail Description" %>
   <%= f.text_area :instruction, placeholder: "Cocktail Instructions" %>
   <br>
