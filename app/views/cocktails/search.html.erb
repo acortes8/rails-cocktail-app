@@ -1,0 +1,39 @@
+<h1>Buzzy Finder</h1>
+
+<%= form_tag search_cocktails_path, method: :get do %>
+  <%= label_tag 'ingredients', 'Ingredients:' %>
+  <%= text_field_tag 'ingredients' %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
+<% if @cocktails.present? %>
+  <br><h1>Search Results for "<%= @user_input %>"</h1>
+
+  <% @full_matches.each do |cocktail| %>
+    <div class="cocktail-container">
+      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br>
+      <%= link_to cocktail.name, cocktail %><br>
+      Matches: <%= cocktail.matching_ingredients_count %><br>
+      Ingredients: <%= cocktail.ingredients.count %>
+      <br><strong>Full Match!</strong>
+    </div>
+  <% end %>
+
+  <% @partial_matches.each do |cocktail| %>
+    <div class="cocktail-container">
+      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br>
+      <%= link_to cocktail.name, cocktail %><br>
+      Matches: <%= cocktail.matching_ingredients_count %><br>
+      Ingredients: <%= cocktail.ingredients.count %>
+    </div>
+  <% end %>
+
+<% end %>
+
+<style>
+  .cocktail-container {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+</style>

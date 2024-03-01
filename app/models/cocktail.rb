@@ -16,4 +16,14 @@ class Cocktail < ApplicationRecord
       cocktail_ingredient.ingredient = Ingredient.find_or_create_by(name:cocktail_ingredient.ingredient.name)
     end
   end
+
+  def self.search_by_ingredients(ingredients)
+    joins(:ingredients)
+      .where('LOWER(ingredients.name) IN (?)', ingredients.map(&:downcase))
+      .group('cocktails.id')
+      .order(Arel.sql('COUNT(DISTINCT ingredients.id) DESC'))
+      .having('COUNT(DISTINCT ingredients.id) >= ?', 1)
+      .select('cocktails.*, COUNT(DISTINCT ingredients.id) AS matching_ingredients_count')
+  end
+
 end

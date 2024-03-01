@@ -10,6 +10,21 @@ class CocktailsController < ApplicationController
     @cocktail_ingredients = @cocktail.cocktail_ingredients
   end
 
+  def search
+    if params[:ingredients].present?
+      @user_input = params[:ingredients]
+      ingredients = @user_input.split(',').map(&:strip)
+      @cocktails = Cocktail.search_by_ingredients(ingredients)
+      @full_matches = @cocktails.select { |cocktail| cocktail.matching_ingredients_count == cocktail.ingredients.count }
+      @partial_matches = @cocktails - @full_matches
+    else
+      @user_input = nil
+      @cocktails = Cocktail.none
+      @full_matches = []
+      @partial_matches = []
+    end
+  end
+
   def new
     @cocktail = Cocktail.new
     @cocktail.cocktail_ingredients.build.build_ingredient
