@@ -73,8 +73,11 @@ group :development, :test do
   # Pry-rails for debugging purposes
   gem "pry-rails"
 
-  # RSpec for test driven development
+  # RSpec for testing purposes
   gem "rspec-rails", "~> 6.1.0"
+
+  # Factory Bot for testing purposes
+  gem "factory_bot_rails"
 end
 
 group :development do
