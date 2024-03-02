@@ -72,6 +72,9 @@ group :development, :test do
 
   # Pry-rails for debugging purposes
   gem "pry-rails"
+
+  # RSpec for test driven development
+  gem "rspec-rails", "~> 6.1.0"
 end
 
 group :development do
