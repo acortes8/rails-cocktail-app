@@ -6,8 +6,11 @@ class Cocktail < ApplicationRecord
   accepts_nested_attributes_for :cocktail_ingredients, allow_destroy: true
   accepts_nested_attributes_for :ingredients
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :image, attached: true
+
+  include PgSearch::Model
+  multisearchable against: :name
   
   before_save :find_or_create_ingredients
 
