@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     post :add_ingredient, on: :collection
     collection do
       get 'search'
+      get 'multi_search'
     end
   end
   resources :ingredients

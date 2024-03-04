@@ -25,6 +25,10 @@ class CocktailsController < ApplicationController
     end
   end
 
+  def multi_search
+    @search_results = PgSearch.multisearch(params[:query])
+  end
+
   def new
     @cocktail = Cocktail.new
     @cocktail.cocktail_ingredients.build.build_ingredient
