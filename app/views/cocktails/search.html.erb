@@ -2,7 +2,7 @@
 
 <%= form_tag search_cocktails_path, method: :get do %>
   <%= label_tag 'ingredients', 'Ingredients:' %>
-  <%= text_field_tag 'ingredients' %>
+  <%= text_field_tag 'ingredients', nil, :placeholder => 'Ex: Lemon juice, Cognac' %>
   <%= submit_tag 'Search' %>
 <% end %>
 
@@ -29,7 +29,8 @@
   <% end %>
 
 <% else %>
-  <h1>Search Field: Empty</h1>
+  <br><h1>Enter ingredients to search for closest matching cocktails.</h1>
+
 <% end %>
 
 
