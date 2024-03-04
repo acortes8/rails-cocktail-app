@@ -1,5 +1,5 @@
 class CocktailsController < ApplicationController
-  http_basic_authenticate_with name: "brevity", password: "CT9d43", except: [:index, :show]
+  http_basic_authenticate_with name: "brevity", password: "CT9d43", except: [:index, :show, :search, :multi_search]
 
   def index
     @cocktails = Cocktail.all
