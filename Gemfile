@@ -78,6 +78,12 @@ group :development, :test do
 
   # Factory Bot for testing purposes
   gem "factory_bot_rails"
+
+  # HTTPParty for web scaping
+  gem "httparty"
+
+  # Nokogiri for web scraping
+  gem "nokogiri"
 end
 
 group :development do

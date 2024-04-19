@@ -133,6 +133,9 @@ GEM
       activesupport (>= 6.1)
     google-protobuf (3.25.3)
     google-protobuf (3.25.3-x86_64-linux)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -166,6 +169,7 @@ GEM
     mini_portile2 (2.8.5)
     minitest (5.20.0)
     msgpack (1.7.2)
+    multi_xml (0.6.0)
     net-imap (0.4.3)
       date
       net-protocol
@@ -311,9 +315,11 @@ DEPENDENCIES
   dartsass-sprockets
   debug
   factory_bot_rails
+  httparty
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  nokogiri
   pg (~> 1.1)
   pg_search
   popper_js (~> 2.11.8)
