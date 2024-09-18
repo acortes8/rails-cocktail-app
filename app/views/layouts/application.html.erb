@@ -11,8 +11,11 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <%= render partial: "layouts/navbar" %>
-    <%= yield %>
+    <main role="main" class="flex-shrink-0">
+      <%= yield %>
+    </main>
+    <%= render partial: "layouts/footer" %>
   </body>
 </html>

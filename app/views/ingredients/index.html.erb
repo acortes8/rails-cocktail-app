@@ -1,10 +1,17 @@
-<h1>Ingredients</h1>
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="bg-light p-4 mb-4 rounded shadow-sm">
+    <h1 class="text-center text-dark display-4">Ingredients</h1>
+  </div>
 
-<div class="list-group">
-  <% @ingredients.each do |ingredient| %>
-    <%= link_to(ingredient.name, ingredient, class: "list-group-item list-group-item-action") %>
-  <% end %>
+  <!-- Ingredients List -->
+  <div class="list-group">
+    <% @ingredients.each do |ingredient| %>
+      <%= link_to ingredient, class: "list-group-item list-group-item-action" do %>
+        <span class="h5 text-dark"><%= ingredient.name %></span>
+      <% end %>
+    <% end %>
+  </div>
 </div>
-<br>
 
 <%#= link_to "Create New Ingredient", new_ingredient_path %>

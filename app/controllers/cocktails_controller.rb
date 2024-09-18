@@ -11,9 +11,15 @@ class CocktailsController < ApplicationController
   end
 
   def search
-    if params[:ingredients].present?
-      @user_input = params[:ingredients]
-      ingredients = @user_input.split(',').map(&:strip)
+    # Extracting ingredients from params
+    ingredients = params[:ingredients] || []  # Default to an empty array if nil
+  
+    # Reject empty strings and whitespace
+    ingredients = ingredients.reject(&:blank?)
+  
+    if ingredients.present?
+      # Set user input for display
+      @user_input = ingredients.join(', ')
       @cocktails = Cocktail.search_by_ingredients(ingredients)
       @full_matches = @cocktails.select { |cocktail| cocktail.matching_ingredients_count == cocktail.ingredients.count }
       @partial_matches = @cocktails - @full_matches

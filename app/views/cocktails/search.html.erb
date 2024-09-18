@@ -1,43 +1,70 @@
-<h1>Buzzy Finder</h1>
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="bg-light p-4 mb-4 rounded shadow-sm">
+    <h1 class="text-center text-dark display-4">Buzzy Finder</h1>
+  </div>
 
-<%= form_tag search_cocktails_path, method: :get do %>
-  <%= label_tag 'ingredients', 'Ingredients:' %>
-  <%= text_field_tag 'ingredients', nil, :placeholder => 'Ex: Lemon juice, Cognac' %>
-  <%= submit_tag 'Search' %>
-<% end %>
+  <!-- Search -->
+  <div class="bg-primary p-4 rounded shadow-sm text-white mb-5">
+    <h2 class="text-center mb-4">Find Cocktails by Ingredients</h2>
+    <%= form_tag search_cocktails_path, method: :get, class: "row justify-content-center" do %>
+      <div id="ingredients-container" class="col-md-8 mb-3">
+        <%= text_field_tag 'ingredients[]', nil, placeholder: 'Ex: Lemon juice, Cognac', class: 'form-control form-control-lg', aria: {label: 'Search ingredients'} %>
+      </div>
+      <div class="col-md-2">
+        <%= submit_tag 'Search', class: 'btn btn-light btn-lg btn-block' %>
+      </div>
+      <div class="col-md-2">
+        <button id="add-ingredient" class="btn btn-secondary btn-lg btn-block">Add Ingredient</button>
+      </div>
+    <% end %>
+  </div>
 
-<% if @cocktails.present? %>
-  <br><h1>Search Results for "<%= @user_input %>"</h1>
+  <!-- Results -->
+  <% if @cocktails.present? %>
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <h2 class="text-center text-dark">Search Results for "<%= @user_input %>"</h2>
+    </div>
 
-  <% @full_matches.each do |cocktail| %>
-    <div class="cocktail-container">
-      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br>
-      <%= link_to cocktail.name, cocktail %><br>
-      Matches: <%= cocktail.matching_ingredients_count %><br>
-      Ingredients: <%= cocktail.ingredients.count %>
-      <br><strong>Full Match!</strong>
+    <div class="row">
+      <% @full_matches.each do |cocktail| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 rounded-0">
+            <%= link_to cocktail do %>
+              <%= image_tag url_for(cocktail.image), class: "card-img-top img-fluid rounded-circle mx-auto d-block", alt: cocktail.name %>
+            <% end %>
+            <div class="card-body text-center">
+              <h5 class="card-title"><%= link_to cocktail.name, cocktail, class: "text-dark no-underline" %></h5>
+              <p class="card-text">
+                Matches: <%= cocktail.matching_ingredients_count %><br>
+                Ingredients: <%= cocktail.ingredients.count %><br>
+                <strong class="text-success">Full Match!</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <% @partial_matches.each do |cocktail| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 rounded-0">
+            <%= link_to cocktail do %>
+              <%= image_tag url_for(cocktail.image), class: "card-img-top img-fluid rounded-circle mx-auto d-block", alt: cocktail.name %>
+            <% end %>
+            <div class="card-body text-center">
+              <h5 class="card-title"><%= link_to cocktail.name, cocktail, class: "text-dark no-underline" %></h5>
+              <p class="card-text">
+                Matches: <%= cocktail.matching_ingredients_count %><br>
+                Ingredients: <%= cocktail.ingredients.count %>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <h2 class="text-center text-dark">Enter ingredients to search for closest matching cocktails.</h2>
     </div>
   <% end %>
-
-  <% @partial_matches.each do |cocktail| %>
-    <div class="cocktail-container">
-      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br>
-      <%= link_to cocktail.name, cocktail %><br>
-      Matches: <%= cocktail.matching_ingredients_count %><br>
-      Ingredients: <%= cocktail.ingredients.count %>
-    </div>
-  <% end %>
-
-<% else %>
-  <br><h1>Enter ingredients to search for closest matching cocktails.</h1>
-
-<% end %>
-
-
-<style>
-  .cocktail-container {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-</style>
+</div>

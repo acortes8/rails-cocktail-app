@@ -1,12 +1,20 @@
-<h1>Cocktails</h1>
+<div class="container mt-4">
+  <div class="bg-light p-4 mb-4 rounded shadow-sm">
+    <h1 class="text-center text-dark display-4">Cocktails</h1>
+  </div>
 
-<ul>
-  <% @cocktails.each do |cocktail| %>
-    <li>
-      <%= link_to image_tag(url_for(cocktail.image), size: 100), cocktail %><br />
-      <%= link_to cocktail.name, cocktail %>
-    </li><br />
-  <% end %>
-</ul>
+  <ul class="list-unstyled row justify-content-center">
+    <% @cocktails.each do |cocktail| %>
+      <li class="col-md-4 text-center mb-4">
+        <%= link_to cocktail do %>
+          <%= image_tag url_for(cocktail.image), class: "img-fluid rounded-circle border border-primary mb-2", alt: cocktail.name %>
+          <br />
+          <span class="d-block h5 text-dark mt-2"><%= cocktail.name %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
 
 <%#= link_to "Create New Cocktail", new_cocktail_path %>

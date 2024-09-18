@@ -9,3 +9,4 @@ pin "stimulus-rails-nested-form", to: "https://ga.jspm.io/npm:stimulus-rails-nes
 
 pin "bootstrap", to: "bootstrap.min.js", preload: true
 pin "@popperjs/core", to: "popper.js", preload: true
+pin "ingredients", preload: true

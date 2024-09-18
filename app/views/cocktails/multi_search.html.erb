@@ -1,36 +1,48 @@
-<% if params[:query].present? %>
-    <h1>Search Results for "<%= params[:query] %>"</h1>
+<div class="container mt-4">
+  <!-- Check if a search query is present -->
+  <% if params[:query].present? %>
+    <!-- Search Results Header -->
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <h1 class="text-center text-dark display-4">Search Results for "<%= params[:query] %>"</h1>
+    </div>
 
-    <br>
-
+    <!-- Cocktails Section -->
     <% if @search_results.none? { |result| result.searchable_type == 'Cocktail' } %>
-        <p>No cocktail results found.</p>
+      <p class="text-muted text-center">No cocktail results found.</p>
     <% else %>
-        <h2>Cocktails</h2>
+      <h2 class="text-primary mt-4">Cocktails</h2>
+      <div class="row">
         <% @search_results.select { |result| result.searchable_type == 'Cocktail' }.each do |result| %>
-            <div class="cocktail-container">
-                <%= link_to image_tag(url_for(result.searchable.image), size: 100), cocktail_path(result.searchable) %><br>
-                <%= link_to result.searchable.name, cocktail_path(result.searchable) %>
+          <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+              <%= link_to cocktail_path(result.searchable) do %>
+                <%= image_tag url_for(result.searchable.image), class: "card-img-top img-fluid rounded-circle mt-3", alt: result.searchable.name %>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= link_to result.searchable.name, cocktail_path(result.searchable), class: "text-dark" %></h5>
+              </div>
             </div>
+          </div>
         <% end %>
+      </div>
     <% end %>
 
+    <!-- Ingredients Section -->
     <% if @search_results.none? { |result| result.searchable_type == 'Ingredient' } %>
-        <p>No ingredient results found.</p>
+      <p class="text-muted text-center">No ingredient results found.</p>
     <% else %>
-        <h2>Ingredients</h2>
+      <h2 class="text-primary mt-4">Ingredients</h2>
+      <div class="list-group">
         <% @search_results.select { |result| result.searchable_type == 'Ingredient' }.each do |result| %>
-            <%= link_to result.searchable.name, ingredient_path(result.searchable) %>
+          <%= link_to result.searchable.name, ingredient_path(result.searchable), class: "list-group-item list-group-item-action" %>
         <% end %>
+      </div>
     <% end %>
-<% else %>
-  <h1>Enter a cocktail or ingredient name for available results.</h1>
-<% end %>
 
-<style>
-  .cocktail-container {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-</style>
+  <% else %>
+    <!-- No search query provided -->
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <h1 class="text-center text-dark display-4">Enter a cocktail or ingredient name for available results.</h1>
+    </div>
+  <% end %>
+</div>

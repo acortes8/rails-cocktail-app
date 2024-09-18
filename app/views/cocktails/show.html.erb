@@ -1,30 +1,51 @@
-<h1><%= @cocktail.name %></h1>
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="bg-light p-4 mb-4 rounded shadow-sm text-center">
+    <h1 class="text-dark display-4"><%= @cocktail.name %></h1>
+  </div>
 
-<img src="<%= (url_for(@cocktail.image)) %>" alt="Cocktail image" width="300" height="300">
+  <!-- Image -->
+  <div class="text-center mb-4">
+    <img src="<%= url_for(@cocktail.image) %>" alt="Cocktail image" class="img-fluid rounded-circle shadow-sm" style="max-width: 300px;">
+  </div>
 
-<p><%= @cocktail.spirit_type %></p>
-<p><%= @cocktail.description %></p>
-<p><%= @cocktail.instruction %></p>
+  <!-- Details -->
+  <div class="bg-white p-4 mb-4 rounded shadow-sm">
+    <p class="lead text-muted"><strong>Spirit Type:</strong> <%= @cocktail.spirit_type %></p>
+    <p><strong>Description:</strong> <%= @cocktail.description %></p>
+    <p><strong>Instructions:</strong> <%= @cocktail.instruction %></p>
+  </div>
 
-<ul>
-  <% @cocktail_ingredients.each do |cocktail_ingredient| %>
-    <li>
-      <%= cocktail_ingredient.quantity %>
-      <%= cocktail_ingredient.unit %>
-      <%= cocktail_ingredient.ingredient.name %>
-
-      <% if cocktail_ingredient.description.present? %>
-        (<%= cocktail_ingredient.description %>)
-      <% end %>
-    </li>
+  <!-- Ingredients List -->
+  <% if @cocktail_ingredients.present? %>
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <h3 class="text-dark">Ingredients</h3>
+      <ul class="list-unstyled">
+        <% @cocktail_ingredients.each do |cocktail_ingredient| %>
+          <li class="mb-2">
+            <strong><%= cocktail_ingredient.quantity %> <%= cocktail_ingredient.unit %></strong> 
+            <%= cocktail_ingredient.ingredient.name %>
+            <% if cocktail_ingredient.description.present? %>
+              (<%= cocktail_ingredient.description %>)
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="bg-light p-4 mb-4 rounded shadow-sm">
+      <p class="text-muted">No ingredients listed for this cocktail.</p>
+    </div>
   <% end %>
-</ul>
 
-<ul>
-  <li><%= link_to "Back to all cocktails", root_path %></li>
+  <!-- Back Link -->
+  <div class="bg-light p-4 rounded shadow-sm text-center mt-4">
+    <%= link_to "Back to all cocktails", root_path, class: "btn btn-primary btn-block" %>
+  </div>
+</div>
   <!-- <li><%#= link_to "Edit", edit_cocktail_path(@cocktail) %></li>
   <li><%#= link_to "Destroy", cocktail_path(@cocktail), data: {
     turbo_method: :delete,
     turbo_confirm: "Are you sure?"
-  } %></li> -->
-</ul>
+  } %></li>
+</ul> -->
