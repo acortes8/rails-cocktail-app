@@ -1,38 +1,94 @@
-<%= form_with model: @cocktail do |f| %>
-  <%= (errors = safe_join(@cocktail.errors.map(&:full_message).map(&tag.method(:li))).presence) ? tag.div(tag.ul(errors), class: "prose text-red-500") : "" %>
+<div class="container mt-5">
+  <div class="bg-light p-5 rounded shadow-sm">
+    <h2 class="text-center text-dark mb-4">Create or Edit Cocktail</h2>
 
-  <%= f.text_field :name, placeholder: "Cocktail Name" %>
-  <%= f.text_field :spirit_type, placeholder: "Spirit Category" %>
-  <%= f.file_field :image, accept: "image/png, image/jpeg, image/webp" %>
-  <%= f.text_area :description, placeholder: "Cocktail Description" %>
-  <%= f.text_area :instruction, placeholder: "Cocktail Instructions" %>
-  <br>
+    <%= form_with model: @cocktail, class: "row g-3" do |f| %>
+      <!-- Display errors -->
+      <%= (errors = safe_join(@cocktail.errors.map(&:full_message).map(&tag.method(:li))).presence) ? tag.div(tag.ul(errors), class: "alert alert-danger") : "" %>
 
-  <%= turbo_frame_tag f.field_id(:ingredients) do %>
-    <%= f.fields_for :cocktail_ingredients do |ff| %>
-      <%= tag.div class: "flex gap-2" do %>
-        <%= ff.fields_for :ingredient do |fff| %>
-          <%= fff.text_field :name, list: "ingredients", placeholder: "Type To Search Ingredients..." %>
-          <datalist id="ingredients">
-            <% Ingredient.pluck(:name).each do |name| %>
-              <option value="<%= name %>"></option>
-            <% end %>
-          </datalist>
+      <!-- Cocktail Name -->
+      <div class="col-md-6 mb-3">
+        <%= f.label :name, "Cocktail Name", class: "form-label" %>
+        <%= f.text_field :name, placeholder: "Cocktail Name", class: "form-control form-control-lg" %>
+      </div>
+
+      <!-- Spirit Type -->
+      <div class="col-md-6 mb-3">
+        <%= f.label :spirit_type, "Spirit Category", class: "form-label" %>
+        <%= f.text_field :spirit_type, placeholder: "Spirit Category", class: "form-control form-control-lg" %>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="col-md-12 mb-3">
+        <%= f.label :image, "Cocktail Image", class: "form-label" %>
+        <%= f.file_field :image, accept: "image/png, image/jpeg, image/webp", class: "form-control form-control-lg" %>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-12 mb-3">
+        <%= f.label :description, "Cocktail Description", class: "form-label" %>
+        <%= f.text_area :description, placeholder: "Cocktail Description", class: "form-control form-control-lg", rows: 4 %>
+      </div>
+
+      <!-- Instructions -->
+      <div class="col-md-12 mb-3">
+        <%= f.label :instruction, "Cocktail Instructions", class: "form-label" %>
+        <%= f.text_area :instruction, placeholder: "Cocktail Instructions", class: "form-control form-control-lg", rows: 4 %>
+      </div>
+
+      <!-- Ingredients Section -->
+      <h3 class="text-center mb-4">Ingredients</h3>
+      <%= turbo_frame_tag f.field_id(:ingredients) do %>
+        <%= f.fields_for :cocktail_ingredients do |ff| %>
+          <div class="row g-3 mb-3">
+            <!-- Ingredient Name -->
+            <div class="col-md-4">
+              <%= ff.fields_for :ingredient do |fff| %>
+                <%= fff.label :name, "Ingredient", class: "form-label" %>
+                <%= fff.text_field :name, list: "ingredients", placeholder: "Search Ingredients...", class: "form-control form-control-lg" %>
+                <datalist id="ingredients">
+                  <% Ingredient.pluck(:name).each do |name| %>
+                    <option value="<%= name %>"></option>
+                  <% end %>
+                </datalist>
+              <% end %>
+            </div>
+
+            <!-- Quantity -->
+            <div class="col-md-2">
+              <%= ff.label :quantity, "Quantity", class: "form-label" %>
+              <%= ff.text_field :quantity, placeholder: "Quantity", class: "form-control form-control-lg" %>
+            </div>
+
+            <!-- Unit -->
+            <div class="col-md-2">
+              <%= ff.label :unit, "Unit", class: "form-label" %>
+              <%= ff.text_field :unit, placeholder: "Measurement Unit", class: "form-control form-control-lg" %>
+            </div>
+
+            <!-- Special Instructions -->
+            <div class="col-md-3">
+              <%= ff.label :description, "Special Instructions", class: "form-label" %>
+              <%= ff.text_field :description, placeholder: "Special Instructions", class: "form-control form-control-lg" %>
+            </div>
+
+            <!-- Remove Ingredient -->
+            <div class="col-md-1 d-flex align-items-end">
+              <%= ff.check_box :_destroy, title: "Check To Delete Ingredient", class: "form-check-input" %>
+            </div>
+          </div>
         <% end %>
-        <%= ff.text_field :quantity, placeholder: "Quantity" %>
-        <%= ff.text_field :unit, placeholder: "Measurement Unit" %>
-        <%= ff.text_field :description, placeholder: "Special Instructions" %>
-        <%= ff.check_box :_destroy, title: "Check To Delete Ingredient" %>
       <% end %>
+
+      <!-- Add Ingredient Button -->
+      <div class="col-md-12 text-center mb-3">
+        <%= f.submit "Add Ingredient", formmethod: "post", formaction: add_ingredient_cocktails_path(id: f.object), data: { turbo_frame: f.field_id(:ingredients) }, class: "btn btn-secondary btn-lg" %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-md-12 text-center">
+        <%= f.submit "Save Cocktail", class: "btn btn-primary btn-lg" %>
+      </div>
     <% end %>
-  <% end %>
-
-  <%= f.submit "Add Ingredient", formmethod: "post", formaction: add_ingredient_cocktails_path(id: f.object), data: {turbo_frame: f.field_id(:ingredients)} %>
-  <%= f.submit %>
-<% end %>
-
-<style type="text/css" media="screen">
-  input[type], textarea, select { display: block; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; width: 100%; border: 1px solid rgba(0,0,0,0.15); border-radius: .375rem; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px }
-  input[type="checkbox"] { width: auto; padding: 0.75rem; }
-  input[type="submit"] { width: auto; cursor: pointer; color: white; background-color: rgb(37, 99, 235); font-weight: 500; }
-</style>  
+  </div>
+</div>
