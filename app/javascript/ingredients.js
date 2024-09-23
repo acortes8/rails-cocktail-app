@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const addButton = document.getElementById('add-ingredient');
   const ingredientsContainer = document.getElementById('ingredients-container');
 
+  if (!addButton || !ingredientsContainer) {
+    console.error("Elements not found. Make sure 'add-ingredient' and 'ingredients-container' exist in the DOM.");
+    return;
+  }
+
   let ingredientCount = 1;
 
   addButton.addEventListener('click', (event) => {
